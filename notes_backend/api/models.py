@@ -6,4 +6,4 @@ class Note(models.Model):
     created = models.DateTimeField(auto_now_add=True) 
 
     def __str__(self):
-        return f"{self.body}[0:11]"
+        return f"{self.id}: Created at - {self.created}"
