@@ -1,0 +1,1 @@
+A simple notes taking app creating using ReactJS for frontend and Python Django for backend.
