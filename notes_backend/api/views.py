@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 
 from .models import Note
 from .serializers import NoteSerializer
@@ -43,12 +44,18 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getNotes(request):
-    all_notes = Note.objects.all()
-    all_notes_serialized = NoteSerializer(all_notes, many=True)
-    return Response(all_notes_serialized.data)
+    try:
+        all_notes = Note.objects.all()
+        all_notes_serialized = NoteSerializer(all_notes, many=True)
+        return Response(all_notes_serialized.data, status=status.HTTP_200_OK)
+    except:
+        return Response('INVALID REQUEST', status=status.HTTP_404_NOT_FOUND) 
 
 @api_view(['GET'])
 def getNote(request, pk):
-    note = Note.objects.get(id=pk)
-    note_serialized = NoteSerializer(note, many=False)
-    return Response(note_serialized.data)
+    try:
+        note = Note.objects.get(id=pk)
+        note_serialized = NoteSerializer(note, many=False)
+        return Response(note_serialized.data)
+    except:
+        return Response('INVALID REQUEST', status=status.HTTP_400_BAD_REQUEST)
