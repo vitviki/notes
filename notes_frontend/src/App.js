@@ -1,9 +1,13 @@
 import './App.css';
 
+import Header from './components/Header';
+import NotesListPage from './scenes/NotesListPage';
+
 function App() {
   return (
     <div className="App">
-      MY APP
+      <Header />
+      <NotesListPage />
     </div>
   );
 }
