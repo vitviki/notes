@@ -11,9 +11,9 @@ const NotePage = ({ match, history }) => {
     }, [noteId]);
 
     let getNote = async () => {
-        let response = await fetch(`/api/notes/${noteId}`)
-        let data = await response.json()
-        setNote(data)
+        let response = await fetch(`/api/notes/${noteId}`);
+        let data = await response.json();
+        setNote(data);
     };
 
     let updateNote = async () => {
@@ -26,6 +26,16 @@ const NotePage = ({ match, history }) => {
             });
     };
 
+    let deleteNote = async () => {
+        fetch(`http://localhost:8000/api/notes/${noteId}/delete/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        history.push("/")
+    }
+
     let handleSubmit = () => {
         updateNote();
         history.push("/")
@@ -37,6 +47,7 @@ const NotePage = ({ match, history }) => {
                 <h3>
                     <ArrowLeft onClick={handleSubmit} />
                 </h3>
+                <button onClick={deleteNote}>Delete</button>
             </div>
             <textarea onChange={(e) => { setNote({...note, 'body':e.target.value })}} defaultValue={note?.body}></textarea>
         </div>

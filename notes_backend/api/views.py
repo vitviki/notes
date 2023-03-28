@@ -72,4 +72,14 @@ def updateNote(request, pk):
     except:
         return Response('INVALID REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+def deleteNote(request, pk):
+    try:
+        note = Note.objects.get(id=pk)
+        note.delete()
+        return Response("DELETION SUCCESSFUL", status=status.HTTP_410_GONE)
+    except:
+        return Response("INVALID REQUEST", status=status.HTTP_400_BAD_REQUEST)
+
+
 
