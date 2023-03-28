@@ -81,5 +81,14 @@ def deleteNote(request, pk):
     except:
         return Response("INVALID REQUEST", status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def createNote(request):
+    try:
+        data = request.data
+        note = Note.objects.create(body=data['body'])
+        note_serialized = NoteSerializer(note, many=False)
+        return Response(note_serialized.data, status=status.HTTP_201_CREATED)
+    except:
+        return Response("BAD DATA", status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
