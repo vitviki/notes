@@ -45,7 +45,7 @@ def getRoutes(request):
 @api_view(['GET'])
 def getNotes(request):
     try:
-        all_notes = Note.objects.all()
+        all_notes = Note.objects.all().order_by('-updated')
         all_notes_serialized = NoteSerializer(all_notes, many=True)
         return Response(all_notes_serialized.data, status=status.HTTP_200_OK)
     except:
@@ -59,3 +59,17 @@ def getNote(request, pk):
         return Response(note_serialized.data)
     except:
         return Response('INVALID REQUEST', status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['PUT'])
+def updateNote(request, pk):
+    try:
+        data = request.data
+        note = Note.objects.get(id=pk)
+        note_serialized = NoteSerializer(instance=note, data=data)
+        if note_serialized.is_valid():
+            note_serialized.save()
+        return Response(note_serialized.data)
+    except:
+        return Response('INVALID REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
